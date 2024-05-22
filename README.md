@@ -22,10 +22,10 @@ git clone https://github.com/matthiaslim/INF2005ACW1-LSBReplacementStego.git
 cd INF2005ACW1-LSBReplacementStego
 ```
 
-2. **Install the required packages**.
+2. **Install the required packages using the requirements text file**.
 
 ```sh
-pip install Pillow
+pip install -r requirements.txt
 ```
 
 ## Usage
