@@ -1,7 +1,9 @@
 import tkinter as tk
 from tkinter import ttk
+
+
 class SteganographyGui:
-    def __init__(self,root):
+    def __init__(self, root):
         self.root = root
         self.root.title("Steganography")
         self.root.geometry("700x700")
@@ -29,6 +31,7 @@ class SteganographyGui:
 
     def decode(self):
         print("Decoding")
+
 
 if __name__ == "__main__":
     root = tk.Tk()
