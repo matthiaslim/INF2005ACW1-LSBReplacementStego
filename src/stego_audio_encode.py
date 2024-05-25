@@ -44,4 +44,4 @@ def encode_audio(input_audio, message_file, output_audio, lsb_num):
     audio.close()
 
 # Use the function
-encode_audio('Fluffing-a-Duck.wav', 'encode_text.txt', 'output.wav', 6)
+encode_audio('Fluffing-a-Duck.wav', '100mb-examplefile-com.txt', 'output.wav', 6)
