@@ -1,39 +1,54 @@
-import tkinter as tk
-from tkinter import ttk
+import sys
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QWidget, QHBoxLayout, QVBoxLayout, QStackedWidget
+from views import home,steganalysis,steganography, encode, decode
 
 
-class SteganographyGui:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("Steganography")
-        self.root.geometry("700x700")
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
 
-        self.frame = tk.Frame(self.root)
-        self.frame.pack(expand=True)
+        self.setWindowTitle('Steganography Tool')
 
-        # Style for buttons
-        self.style = ttk.Style()
-        self.style.configure("RoundedButton.TButton", padding=6, relief="flat", background="#ccc")
-        self.style.map("RoundedButton.TButton",
-                       background=[('active', '#bbb')],
-                       relief=[('pressed', 'flat')])
+        # stack widget
+        self.stacked_widget = QStackedWidget()
+        self.setCentralWidget(self.stacked_widget)
 
-        # Create Encode button
-        self.encode_button = tk.Button(self.frame, text="Encode", command=self.encode, height=10,width=25)
-        self.encode_button.pack(side=tk.LEFT, padx=10, pady=10)
+        # Screens
+        self.main_screen = home.MainScreen(self.show_steganography_screen, self.show_steganalysis_screen)
+        self.steganography_screen = steganography.SteganographyScreen(self.show_main_screen, self.show_encode_screen, self.show_decode_screen)
+        self.steganalysis_screen = steganalysis.SteganalysisScreen(self.show_main_screen)
+        self.encode_screen = encode.EncodeScreen(self.show_steganography_screen)
+        self.decode_screen = decode.DecodeScreen(self.show_steganography_screen)
 
-        # Create Decode button
-        self.decode_button = tk.Button(self.frame, text="Decode", command=self.decode, height=10,width=25)
-        self.decode_button.pack(side=tk.RIGHT, padx=10, pady=10)
+        self.stacked_widget.addWidget(self.main_screen)
+        self.stacked_widget.addWidget(self.steganography_screen)
+        self.stacked_widget.addWidget(self.steganalysis_screen)
+        self.stacked_widget.addWidget(self.encode_screen)
+        self.stacked_widget.addWidget(self.decode_screen)
 
-    def encode(self):
-        print("Encoding")
+        self.setFixedSize(1920, 1080)
+        self.show()
 
-    def decode(self):
-        print("Decoding")
+    def show_main_screen(self):
+        self.stacked_widget.setCurrentWidget(self.main_screen)
+
+    def show_steganography_screen(self):
+        self.stacked_widget.setCurrentWidget(self.steganography_screen)
+
+    def show_steganalysis_screen(self):
+        self.stacked_widget.setCurrentWidget(self.steganalysis_screen)
+
+    def show_encode_screen(self):
+        self.stacked_widget.setCurrentWidget(self.encode_screen)
+
+    def show_decode_screen(self):
+        self.stacked_widget.setCurrentWidget(self.decode_screen)
+
+def main():
+    app = QApplication(sys.argv)
+    window = MainWindow()
+    sys.exit(app.exec_())
 
 
-if __name__ == "__main__":
-    root = tk.Tk()
-    app = SteganographyGui(root)
-    root.mainloop()
+if __name__ == '__main__':
+    main()
