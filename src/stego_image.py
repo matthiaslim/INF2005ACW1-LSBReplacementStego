@@ -47,4 +47,5 @@ def decode_image(image_path, lsb_count):
 
     bits = ''.join(map(str, bits))
     message = bits_to_text(bits)
+    print("Decoded bits:", bits) # Debugging
     return message.split(chr(0))[0]  # Remove any extra data after the null character
