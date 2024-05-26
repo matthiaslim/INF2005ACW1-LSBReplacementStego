@@ -7,3 +7,6 @@ python-tkdnd==0.2.1
 tk==0.1.0
 tkfilebrowser==2.3.2
 ttkwidgets==0.13.0
+opencv-python
+cryptography
+moviepy
