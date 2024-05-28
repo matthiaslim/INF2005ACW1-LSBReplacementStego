@@ -3,7 +3,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap, QDropEvent
 
 
-class EncodeScreen(QWidget):
+class EncodeMultimediaScreen(QWidget):
     def __init__(self, switch_to_steganography):
         super().__init__()
 
@@ -34,7 +34,7 @@ class EncodeScreen(QWidget):
         self.payload_label.dropEvent = self.payload_dropEvent
 
         # Create buttons to add file from explorer or remove file
-        self.choose_payload_button = QPushButton('Add file', self)
+        self.choose_payload_button = QPushButton('Add multimedia file', self)
         self.choose_payload_button.setFixedWidth(150)
         self.choose_payload_button.clicked.connect(self.select_payload_file)
 
@@ -54,13 +54,13 @@ class EncodeScreen(QWidget):
         self.text_edit = QTextEdit(self)
         self.text_edit.setPlaceholderText("Or type your secret message here")
         self.text_edit.setFixedHeight(50)
-        self.text_edit.setContentsMargins(20,0,20,0)
+        self.text_edit.setContentsMargins(20, 0, 20, 0)
 
         # Create a horizontal layout for cover object and encoded result
         self.cover_result_layout = QHBoxLayout()
 
         # Create label for drag-and-drop cover object (image)
-        self.cover_label = QLabel("Drag and drop your cover image here", self)
+        self.cover_label = QLabel("Drag and drop your multimedia file here", self)
         self.cover_label.setStyleSheet("QLabel { border: 2px dashed #aaa; }")
         self.cover_label.setAlignment(Qt.AlignCenter)
         self.cover_label.setAcceptDrops(True)
@@ -86,8 +86,7 @@ class EncodeScreen(QWidget):
         self.button_layout.addWidget(self.encode_button)
         self.button_layout.addStretch(1)  # Add stretchable space after the button
 
-        #Add cover and result layout to main layout
-
+        # Add cover and result layout to main layout
         self.main_layout.addLayout(self.cover_result_layout)
 
         # Add the button layout to the main layout

@@ -1,6 +1,6 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QWidget, QHBoxLayout, QVBoxLayout, QStackedWidget
-from views import home,steganalysis,steganography, encode, decode
+from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget
+import home, steganalysis, steganography, encode_images, decode_options, encode_options, encode_multimedia, decode_images
 
 
 class MainWindow(QMainWindow):
@@ -15,16 +15,30 @@ class MainWindow(QMainWindow):
 
         # Screens
         self.main_screen = home.MainScreen(self.show_steganography_screen, self.show_steganalysis_screen)
-        self.steganography_screen = steganography.SteganographyScreen(self.show_main_screen, self.show_encode_screen, self.show_decode_screen)
+        self.steganography_screen = steganography.SteganographyScreen(self.show_main_screen,
+                                                                      self.show_encode_options_screen,
+                                                                      self.show_decode_options_screen)
+        self.encode_options_screen = encode_options.SteganographyEncodeOptionScreen(self.show_steganography_screen,
+                                                                                    self.show_encode_images_screen,
+                                                                                    self.show_encode_multimedia_screen)
+        self.decode_options_screen = decode_options.SteganographyDecodeOptionScreen(self.show_steganography_screen,
+                                                                                    self.show_decode_images_screen,
+                                                                                    self.show_encode_multimedia_screen)
         self.steganalysis_screen = steganalysis.SteganalysisScreen(self.show_main_screen)
-        self.encode_screen = encode.EncodeScreen(self.show_steganography_screen)
-        self.decode_screen = decode.DecodeScreen(self.show_steganography_screen)
+        self.encode_images_screen = encode_images.EncodeImageScreen(self.show_encode_options_screen)
+        self.encode_multimedia_screen = encode_multimedia.EncodeMultimediaScreen(self.show_encode_options_screen)
+        self.decode_images_screen = decode_images.DecodeImageScreen(self.show_decode_options_screen)
 
         self.stacked_widget.addWidget(self.main_screen)
         self.stacked_widget.addWidget(self.steganography_screen)
         self.stacked_widget.addWidget(self.steganalysis_screen)
-        self.stacked_widget.addWidget(self.encode_screen)
-        self.stacked_widget.addWidget(self.decode_screen)
+        self.stacked_widget.addWidget(self.encode_images_screen)
+        self.stacked_widget.addWidget(self.encode_multimedia_screen)
+        self.stacked_widget.addWidget(self.encode_options_screen)
+        self.stacked_widget.addWidget(self.decode_options_screen)
+        self.stacked_widget.addWidget(self.decode_images_screen)
+
+
 
         self.setFixedSize(1920, 1080)
         self.show()
@@ -38,11 +52,22 @@ class MainWindow(QMainWindow):
     def show_steganalysis_screen(self):
         self.stacked_widget.setCurrentWidget(self.steganalysis_screen)
 
-    def show_encode_screen(self):
-        self.stacked_widget.setCurrentWidget(self.encode_screen)
+    def show_encode_images_screen(self):
+        self.stacked_widget.setCurrentWidget(self.encode_images_screen)
 
-    def show_decode_screen(self):
-        self.stacked_widget.setCurrentWidget(self.decode_screen)
+    def show_encode_multimedia_screen(self):
+        self.stacked_widget.setCurrentWidget(self.encode_multimedia_screen)
+
+    def show_encode_options_screen(self):
+        self.stacked_widget.setCurrentWidget(self.encode_options_screen)
+
+    def show_decode_options_screen(self):
+        self.stacked_widget.setCurrentWidget(self.decode_options_screen)
+
+    def show_decode_images_screen(self):
+        self.stacked_widget.setCurrentWidget(self.decode_images_screen)
+
+
 
 def main():
     app = QApplication(sys.argv)

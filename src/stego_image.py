@@ -75,15 +75,15 @@ def decode(image_name, lsb_use):
             break
     return decoded_data[:-5]
 
-
-if __name__ == "__main__":
-    input_image = "instagram.png"
-    output_image = "instagram_stg.png"
-    secret_data = "messagemessagemessage"
-
-    encoded_image = encode(input_image, secret_data, 5)
-    cv2.imwrite(output_image, encoded_image)
-    print("Encoded image now to decode")
-
-    decoded_data = decode(output_image, 5)
-    print(decoded_data)
+#
+# if __name__ == "__main__":
+#     input_image = "instagram.png"
+#     output_image = "instagram_stg.png"
+#     secret_data = "messagemessagemessage"
+#
+#     encoded_image = encode(input_image, secret_data, 5)
+#     cv2.imwrite(output_image, encoded_image)
+#     print("Encoded image now to decode")
+#
+#     decoded_data = decode(output_image, 5)
+#     print(decoded_data)

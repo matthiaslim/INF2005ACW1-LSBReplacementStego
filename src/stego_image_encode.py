@@ -9,7 +9,7 @@ def read_text_from_file(file_path):
         return file.read()
 
 # Use the function
-image_path = 'quack.png'  # Path to the input image file
+image_path = 'images/original/quack.png'  # Path to the input image file
 text_file_path = 'encode_image.txt'  # Path to the text file containing the message
 output_path = 'output_image.png'  # Path to save the encoded image file
 lsb_count = 2  # Number of LSBs to use for encoding, can be any value from 1 to 8
