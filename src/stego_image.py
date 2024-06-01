@@ -70,20 +70,21 @@ def decode(image_name, lsb_use):
     decoded_data = ""
     for byte in all_bytes:
         decoded_data += chr(int(byte, 2))
-        print(decoded_data + "\n")
+        #print(decoded_data + "\n")
         if decoded_data[-5:] == "=====":
             break
     return decoded_data[:-5]
 
 
 if __name__ == "__main__":
-    input_image = "instagram.png"
-    output_image = "instagram_stg.png"
-    secret_data = "messagemessagemessage"
+    input_image = "quack.png"
+    output_image = "quack_stg.png"
+    secret_data = "messagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessage"
+    lsb_use = 7
 
-    encoded_image = encode(input_image, secret_data, 5)
+    encoded_image = encode(input_image, secret_data, lsb_use)
     cv2.imwrite(output_image, encoded_image)
     print("Encoded image now to decode")
 
-    decoded_data = decode(output_image, 5)
+    decoded_data = decode(output_image, lsb_use)
     print(decoded_data)
