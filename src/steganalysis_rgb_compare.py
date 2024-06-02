@@ -41,6 +41,8 @@ def plot_histograms(hist1, hist2, title1='Cover Image', title2='Stego Image'):
 
 
 def compare_images(image_path1, image_path2):
+    print(image_path1)
+    print(image_path2)
     hist1_r, hist1_g, hist1_b = calculate_histogram(image_path1)
     hist2_r, hist2_g, hist2_b = calculate_histogram(image_path2)
 
@@ -54,7 +56,7 @@ def compare_images(image_path1, image_path2):
 
     # Plot histograms and their differences
     plot_histograms([hist1_r, hist1_g, hist1_b], [hist2_r, hist2_g, hist2_b])
-
+    print("Reached")
 
 # Example usage
-compare_images('quack.png', 'quack.png')
+#compare_images('quack.png', 'quack.png')

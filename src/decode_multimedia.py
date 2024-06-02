@@ -109,12 +109,12 @@ class DecodeMultimediaScreen(QWidget):
             self.steg_multimedia_path = file_path
             self.encoded_multimedia_label.setText(f"Multimedia file selected: {self.steg_multimedia_path}")
         else:
-            self.encoded_image_label.setText("Invalid image file. Please select a valid PNG or BMP image.")
+            self.encoded_multimedia_label.setText("Invalid image file. Please select a valid PNG or BMP image.")
 
     def remove_payload_file(self):
         self.steg_multimedia_path = ""
-        self.encoded_image_label.clear()
-        self.encoded_image_label.setText("Drag and drop your encoded multimedia file here (.wav, .mp4)")
+        self.encoded_multimedia_label.clear()
+        self.encoded_multimedia_label.setText("Drag and drop your encoded multimedia file here (.wav, .mp4)")
 
     def decode_message(self):
         if self.steg_multimedia_path.endswith('.wav'):
@@ -124,14 +124,14 @@ class DecodeMultimediaScreen(QWidget):
             except Exception as e:
                 self.decoded_text.setPlainText(f"Error decoding message: {e}")
         else:
-            self.encoded_image_label.setText("Unsupported file type for decoding")
+            self.encoded_multimedia_label.setText("Unsupported file type for decoding")
             self.steg_multimedia_path = ""
 
     def backbutton_clear(self):
         self.steg_multimedia_path = ""
         self.decoded_text.setText("Your Secret Message lies here after decoding")
-        self.encoded_image_label.clear()
-        self.encoded_image_label.setText("Drag and drop your encoded multimedia file here (.wav, .mp4)")
+        self.encoded_multimedia_label.clear()
+        self.encoded_multimedia_label.setText("Drag and drop your encoded multimedia file here (.wav, .mp4)")
 
     def on_back_button_clicked(self):
         self.backbutton_clear()
