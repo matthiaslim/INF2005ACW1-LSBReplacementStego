@@ -62,7 +62,7 @@ class SteganalysisScreen(QWidget):
         self.suspected_file_layout = QVBoxLayout()
 
         self.suspected_image_label = QLabel("Drag and drop your suspected file here")
-        self.suspected_image_label.setStyleSheet("QLabel { border: 2px dashed #aaa; }")
+        self.suspected_image_label.setStyleSheet("QLabel { border: 1px dashed #aaa; }")
         self.suspected_image_label.setAlignment(Qt.AlignCenter)
         #self.suspected_image_label.setFixedHeight(300)
         self.suspected_image_label.setAcceptDrops(True)
@@ -195,13 +195,40 @@ class SteganalysisScreen(QWidget):
         self.suspected_image_label.setText("Drag and drop your suspected file here")
     
     def analyse_images(self):
+        if self.original_path and self.suspected_path:
+            hist_comparison = steganalysis_rgb_compare.compare_images(self.original_path, self.suspected_path)
+            self.plot_histograms(hist_comparison)
+
+    def plot_histograms(self, hist_comparison):
+        hist1_r, hist1_g, hist1_b = hist_comparison['histogram1']
+        hist2_r, hist2_g, hist2_b = hist_comparison['histogram2']
+
+        if any(hist is None for hist in [hist1_r, hist1_g, hist1_b, hist2_r, hist2_g, hist2_b]):
+            return
+
         self.figure.clear()
-        steganalysis_rgb_compare.compare_images(self.original_path, self.suspected_path)
-        # random data
-        data = [random.random() for i in range(10)]
-        ax = self.figure.add_subplot(111)
-  
-        # plot data
-        ax.plot(data, '*-')
+        axes = self.figure.subplots(3, 3)
+        self.figure.suptitle('Histogram Comparison')
+
+        channels = ['Red', 'Green', 'Blue']
+        for i, channel in enumerate(channels):
+
+            # Original Image
+            axes[i, 0].plot(hist1_r, color=channel.lower())
+            axes[i, 0].set_title(f'Original Image - {channel} Channel', fontsize=8)
+
+            # Suspected Image
+            axes[i, 1].plot(hist2_r, color=channel.lower())
+            axes[i, 1].set_title(f'Suspected Image - {channel} Channel', fontsize=8)
+
+            # Plot differences
+            diff_r = hist1_r - hist2_r
+            axes[i, 2].plot(diff_r, color=channel.lower())
+            axes[i, 2].set_title(f'Difference - {channel} Channel', fontsize=8)
+
+        # Adjust tick label font size for all subplots
+        for ax in axes.flat:
+            ax.tick_params(axis='both', which='major', labelsize=8)
+
         self.matplot_label.draw()
-    
+
