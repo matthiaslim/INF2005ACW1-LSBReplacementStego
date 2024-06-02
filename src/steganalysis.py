@@ -62,7 +62,7 @@ class SteganalysisScreen(QWidget):
         self.suspected_file_layout = QVBoxLayout()
 
         self.suspected_image_label = QLabel("Drag and drop your suspected file here")
-        self.suspected_image_label.setStyleSheet("QLabel { border: 1px dashed #aaa; }")
+        self.suspected_image_label.setStyleSheet("QLabel { border: 2px dashed #aaa; }")
         self.suspected_image_label.setAlignment(Qt.AlignCenter)
         #self.suspected_image_label.setFixedHeight(300)
         self.suspected_image_label.setAcceptDrops(True)
