@@ -1,6 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget
-import home, steganalysis, steganography, encode_images, decode_options, encode_options, encode_multimedia, decode_images
+import home, steganalysis, steganography, encode_images, decode_options, encode_options, encode_multimedia, decode_images, decode_multimedia
 
 
 class MainWindow(QMainWindow):
@@ -23,11 +23,12 @@ class MainWindow(QMainWindow):
                                                                                     self.show_encode_multimedia_screen)
         self.decode_options_screen = decode_options.SteganographyDecodeOptionScreen(self.show_steganography_screen,
                                                                                     self.show_decode_images_screen,
-                                                                                    self.show_encode_multimedia_screen)
+                                                                                    self.show_decode_multimedia_screen)
         self.steganalysis_screen = steganalysis.SteganalysisScreen(self.show_main_screen)
         self.encode_images_screen = encode_images.EncodeImageScreen(self.show_encode_options_screen)
         self.encode_multimedia_screen = encode_multimedia.EncodeMultimediaScreen(self.show_encode_options_screen)
         self.decode_images_screen = decode_images.DecodeImageScreen(self.show_decode_options_screen)
+        self.decode_multimedia_screen = decode_multimedia.DecodeMultimediaScreen(self.show_decode_options_screen)
 
         self.stacked_widget.addWidget(self.main_screen)
         self.stacked_widget.addWidget(self.steganography_screen)
@@ -37,10 +38,11 @@ class MainWindow(QMainWindow):
         self.stacked_widget.addWidget(self.encode_options_screen)
         self.stacked_widget.addWidget(self.decode_options_screen)
         self.stacked_widget.addWidget(self.decode_images_screen)
+        self.stacked_widget.addWidget(self.decode_multimedia_screen)
 
 
 
-        self.setFixedSize(1920, 1080)
+        self.showMaximized()
         self.show()
 
     def show_main_screen(self):
@@ -66,6 +68,9 @@ class MainWindow(QMainWindow):
 
     def show_decode_images_screen(self):
         self.stacked_widget.setCurrentWidget(self.decode_images_screen)
+    
+    def show_decode_multimedia_screen(self):
+        self.stacked_widget.setCurrentWidget(self.decode_multimedia_screen)
 
 
 
