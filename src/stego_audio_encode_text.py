@@ -1,15 +1,20 @@
 import wave
 
-def encode_audio(input_audio, message_file, output_audio, lsb_num):
+# input_audio = 'Fluffing-a-Duck.wav'
+# message_file = 'encode_image.txt'
+# output_audio ='output.wav'
+# lsb_num = 1
+
+def encode_audio(input_audio, message, output_audio, lsb_num):
     # Open the audio file
     audio = wave.open(input_audio, mode='rb')
 
     # Read frames and convert to byte array
     frame_bytes = bytearray(list(audio.readframes(audio.getnframes())))
 
-    # Read the message from the file
-    with open(message_file, 'r') as file:
-        message = file.read()
+    # # Read the message from the file
+    # with open(message_file, 'r') as file:
+    #     message = file.read()
 
     # Check if payload is too large for cover object. the test text file is 100mb-examplefile-com. just change the line at 43
     if len(message) * 8 > len(frame_bytes) * lsb_num:
@@ -42,6 +47,3 @@ def encode_audio(input_audio, message_file, output_audio, lsb_num):
         fd.writeframes(modified_frames)
 
     audio.close()
-
-# Use the function
-encode_audio('Fluffing-a-Duck.wav', '100mb-examplefile-com.txt', 'output.wav', 6)
