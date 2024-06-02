@@ -80,7 +80,7 @@ if __name__ == "__main__":
     input_image = "quack.png"
     output_image = "quack_stg.png"
     secret_data = "messagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessagemessage"
-    lsb_use = 7
+    lsb_use = 8
 
     encoded_image = encode(input_image, secret_data, lsb_use)
     cv2.imwrite(output_image, encoded_image)
