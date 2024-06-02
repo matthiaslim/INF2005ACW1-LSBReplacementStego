@@ -70,7 +70,7 @@ def decode(image_name, lsb_use):
     decoded_data = ""
     for byte in all_bytes:
         decoded_data += chr(int(byte, 2))
-        print(decoded_data + "\n")
+        #print(decoded_data + "\n")
         if decoded_data[-5:] == "=====":
             break
     return decoded_data[:-5]
