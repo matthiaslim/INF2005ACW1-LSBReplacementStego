@@ -176,7 +176,10 @@ class EncodeMultimediaScreen(QWidget):
         self.result_label.setText("Encoded multimedia file path will be shown here")
 
     def encode_audio_text(self):
-        if not self.cover_multimedia_path or not self.payload_data:
+        if not self.payload_data:
+            self.payload_data = self.text_edit.toPlainText()
+
+        if not self.cover_multimedia_path or self.payload_data == '':
             self.result_label.setText("Missing, cover multimedia file or payload text file")
             return
         
