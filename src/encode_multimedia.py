@@ -4,7 +4,7 @@ import cv2
 from PyQt5.QtWidgets import QWidget, QPushButton, QVBoxLayout, QLabel, QTextEdit, QFileDialog, QHBoxLayout, QComboBox
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap, QDropEvent
-import stego_audio_encode_text
+import stego_audio_encode_text, stego_audio_encode_audio
 
 
 class EncodeMultimediaScreen(QWidget):
@@ -29,7 +29,7 @@ class EncodeMultimediaScreen(QWidget):
         self.payload_button_layout = QHBoxLayout()
 
         # Create label for drag-and-drop payload (text file or message)
-        self.payload_label = QLabel("Drag and drop your payload (text file) here or type your message below", self)
+        self.payload_label = QLabel("Drag and drop your payload here or type your message below", self)
         self.payload_label.setStyleSheet("QLabel { border: 2px dashed #aaa; }")
         self.payload_label.setAlignment(Qt.AlignCenter)
         self.payload_label.setFixedHeight(100)
@@ -111,6 +111,7 @@ class EncodeMultimediaScreen(QWidget):
         # File paths
         self.cover_multimedia_path = ""
         self.payload_data = ""
+        self.payload_path = ""
 
     def cover_dropEvent(self, event):
         urls = event.mimeData().urls()
@@ -132,20 +133,27 @@ class EncodeMultimediaScreen(QWidget):
                     self.payload_label.setText("Payload uploaded")
                 # Disable text edit when a text file is dropped
                 self.text_edit.setReadOnly(True)
+            elif file_path.endswith('.wav'):
+                self.payload_path = file_path
+                self.payload_label.setText("WAV file payload uploaded")
+                self.text_edit.setReadOnly(True)
             else:
-                # Handle non-text files if needed
-                pass
+                self.payload_label.setText("Unsupported file type")
 
     def select_payload_file(self):
         options = QFileDialog.Options()
         file_path, _ = QFileDialog.getOpenFileName(self, "Select Payload File", "",
                                                    "Text Files (*.txt);;All Files (*)", options=options)
         if file_path:
-            with open(file_path, 'r') as file:
-                self.payload_data = file.read()
-                self.text_edit.setPlainText(self.payload_data)
-            # Disable text edit when a text file is selected
-            self.text_edit.setReadOnly(True)
+            if file_path.endswith('.txt'):
+                with open(file_path, 'r') as file:
+                    self.payload_data = file.read()
+                    self.payload_label.setText("text file payload selected")
+                self.text_edit.setReadOnly(True)
+            elif file_path.endswith('.wav'):
+                self.payload_path = file_path
+                self.payload_label.setText("WAV file payload selected")
+                self.text_edit.setReadOnly(True)
 
     def select_cover_image(self):
         options = QFileDialog.Options()
@@ -160,6 +168,7 @@ class EncodeMultimediaScreen(QWidget):
     def remove_payload_file(self):
         self.text_edit.setReadOnly(False)
         self.payload_data = ""
+        self.payload_path = ""
         self.payload_label.clear()  # Clear the payload label
         self.payload_label.setText("Drag and drop your payload (text file) here or type your message below")
 
@@ -170,26 +179,32 @@ class EncodeMultimediaScreen(QWidget):
     def backbutton_clear(self):
         self.cover_multimedia_path = ""
         self.payload_data = ""
+        self.payload_path = ""
         self.payload_label.setText("Drag and drop your payload (text file) here or type your message below")
         self.text_edit.setPlaceholderText("Or type your secret message here")
         self.cover_label.setText("Drag and drop your cover multimedia here, the file path will be shown here:")
         self.result_label.setText("Encoded multimedia file path will be shown here")
 
     def encode_audio_text(self):
-        if not self.payload_data:
+        if not self.payload_data and self.payload_path:
             self.payload_data = self.text_edit.toPlainText()
 
-        if not self.cover_multimedia_path or self.payload_data == '':
-            self.result_label.setText("Missing, cover multimedia file or payload text file")
+        if not self.cover_multimedia_path or (self.payload_data == '' and self.payload_path==''):
+            self.result_label.setText("Missing, cover multimedia file or payload file")
             return
         
         output_audio = 'output.wav'
+        encode_audio_output = 'encode_audio_output.wav'
         # Number of bits to encode with
         lsb_num = int(self.bits_dropdown.currentText())
 
         try:
-            stego_audio_encode_text.encode_audio(self.cover_multimedia_path, self.payload_data, output_audio, lsb_num)
-            self.result_label.setText(f"Encoding completed. File is saved at {output_audio}")
+            if self.payload_path.endswith('.wav'):
+                stego_audio_encode_audio.encode_audio(self.cover_multimedia_path,self.payload_path, encode_audio_output)
+                self.result_label.setText(f"Encoding completed. File is saved at {encode_audio_output}")
+            else:    
+                stego_audio_encode_text.encode_audio(self.cover_multimedia_path, self.payload_data, output_audio, lsb_num)
+                self.result_label.setText(f"Encoding completed. File is saved at {output_audio}")
         except Exception as e:
             self.result_label.setText(f"Error during encoding: {str(e)}")
             print(str(e))
